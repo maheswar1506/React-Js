@@ -24,6 +24,8 @@ class CommentForm extends Component {
 
 	handleSubmit = (values) => {
 		this.toggleModal();
+		this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+		alert(JSON.stringify(values));
 	}
 
 	render() {
@@ -66,7 +68,7 @@ class CommentForm extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="comment" md={5}>Comment</Label>
                                 <Col md={12}>
-                                    <Control.textarea model="comment" id="comment" name="comment"
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                         rows="6"
                                         className="form-control" />
                                 </Col>
@@ -105,7 +107,7 @@ function RenderDish({dish}) {
   }
 }
 
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, dishId}) {
 	if(comments != null) {
 		return (
 			<div className="col-12 col-md-5 m-1">
@@ -119,7 +121,7 @@ function RenderComments({comments}) {
 							</li>
 						);
 					})}
-					<CommentForm />
+					<CommentForm dishId={dishId} addComment={addComment} />
 				</ul>
 			</div>
 		);
@@ -145,7 +147,7 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
                 </div>
 			</div>
 		);
